@@ -9,25 +9,39 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  
 } from "react-router-dom";
 
 
 function App() {
   const [mode, setMode] = useState("light")
 
-  const toggleMode = () => {
-    if (mode === 'light') {
-      setMode('dark')
-      document.body.style.backgroundColor = "grey";
-      showAlert(" dark mode has been enabled", "success")
-      document.title = "Textutils-Darkmode"
+  const removBdyCls =()=>{
+    document.body.classList.remove("bg-primary")
+    document.body.classList.remove("bg-success")
+    document.body.classList.remove("bg-danger")
+    document.body.classList.remove("bg-warning")
+    document.body.classList.remove("bg-dark")
+    document.body.classList.remove("bg-light")
+    document.body.classList.remove("bg-null")
+  }
+
+  const toggleMode = (cls) => {
+    
+    removBdyCls();
+    document.body.classList.add("bg-"+cls)
+  
+    if (cls===null && mode === 'light') {
+       setMode('dark')
+       document.body.style.backgroundColor = "#003787d6";
+       showAlert(" dark mode has been enabled", "success")
+      
     }
     else {
       setMode('light')
       document.body.style.backgroundColor = "white";
       showAlert(" dark mode has been disabled", "success")
-      document.title = "Textutils-Lightmode"
+      
     }
   }
   const [alert, setAlert] = useState(null);
@@ -51,14 +65,14 @@ function App() {
 
         <div className="container">
           <Switch>
-            <Route path="/Main">
-              <TextForm mode={mode} showAlert={showAlert} toggleMode={toggleMode} />
+            <Route path="/">
+              <TextForm mode={mode} showAlert={showAlert}  />
             </Route>
-            <Route path="/Home">
-              <TextForm mode={mode} showAlert={showAlert} toggleMode={toggleMode} />
+            <Route path="/">
+              <TextForm mode={mode} showAlert={showAlert}  />
             </Route>
-            <Route path="/About">
-              <About/>
+            <Route exactpath="/About">
+              <About togglemode={toggleMode}/>
             </Route>
           </Switch >
         </div>
@@ -72,4 +86,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
